@@ -74,7 +74,7 @@ export function analyzeUrl(rawUrl: string): UrlAnalysis {
   const path = parsed.pathname + parsed.search;
   const full = normalized.toLowerCase();
   const labels = host.split(".").filter(Boolean);
-  const tld = labels.length > 1 ? labels[labels.length - 1] : "";
+  const tld = labels.length > 1 ? (labels[labels.length - 1] ?? "") : "";
   const subdomainCount = Math.max(0, labels.length - 2);
   const digitCount = (host.match(/\d/g) ?? []).length;
   const digitRatio = host.length ? digitCount / host.length : 0;
