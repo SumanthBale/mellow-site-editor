@@ -43,7 +43,7 @@ const PIPELINE = [
   {
     icon: Cpu,
     title: "Feature extraction",
-    body: "17 lexical and structural features are computed — IP hosts, '@' tricks, subdomain depth, TLD risk, entropy and more.",
+    body: "16 lexical and structural features are computed — IP hosts, '@' tricks, subdomain depth, TLD risk, entropy and more.",
   },
   {
     icon: Gauge,
