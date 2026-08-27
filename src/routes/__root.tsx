@@ -11,6 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { Toaster } from "@/components/ui/sonner";
+
 
 function NotFoundComponent() {
   return (
@@ -77,14 +81,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Meridian Studio" },
-      { name: "description", content: "A warm editorial studio for brands that would rather be understood than louder." },
-      { name: "author", content: "Meridian Studio" },
-      { property: "og:title", content: "Meridian Studio" },
-      { property: "og:description", content: "A warm editorial studio for brands that would rather be understood than louder." },
+      { title: "PhishGuard.ai — AI Based Phishing Detection System" },
+      {
+        name: "description",
+        content:
+          "AI and machine learning powered phishing URL detection with explainable risk scoring. Final year cyber security project, ACS College of Engineering, VTU.",
+      },
+      { name: "author", content: "PhishGuard.ai project team" },
+      { property: "og:title", content: "PhishGuard.ai — AI Based Phishing Detection System" },
+      {
+        property: "og:description",
+        content:
+          "Analyse any URL with a machine-learning feature pipeline plus AI reasoning, and get an explainable phishing risk verdict.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@meridianstudio" },
     ],
     links: [
       {
@@ -102,11 +113,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -132,7 +144,15 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
+      </div>
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
+
