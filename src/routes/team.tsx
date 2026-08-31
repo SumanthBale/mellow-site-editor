@@ -60,7 +60,7 @@ function TeamPage() {
         <span className="grid h-10 w-10 place-items-center rounded-lg bg-primary/15 text-primary">
           <GraduationCap className="h-5 w-5" />
         </span>
-        <p className="mt-4 font-display text-lg font-semibold">Ms. Sanjana R Chavan</p>
+        <p className="mt-4 font-display text-lg font-semibold">Deepa G</p>
         <p className="text-sm text-muted-foreground">
           Project Guide · Assistant Professor, Department of CSE (Cyber Security)
         </p>

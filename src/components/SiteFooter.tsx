@@ -13,7 +13,7 @@ export function SiteFooter() {
         </div>
         <div>
           <p className="font-medium text-foreground">Guide</p>
-          <p className="mt-2">Ms. Sanjana R Chavan</p>
+          <p className="mt-2">Deepa G</p>
           <p>Assistant Professor</p>
         </div>
         <div>
