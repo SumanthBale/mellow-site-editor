@@ -1,0 +1,3 @@
+ALTER TABLE public.scans ADD COLUMN scan_type text NOT NULL DEFAULT 'url' CHECK (scan_type IN ('url','email','sms')), ADD COLUMN message_content text CHECK (char_length(message_content) <= 20000), ADD COLUMN sender text CHECK (char_length(sender) <= 320), ADD COLUMN subject text CHECK (char_length(subject) <= 300), ADD COLUMN analysis_details jsonb;
+COMMENT ON COLUMN public.scans.message_content IS 'Email/SMS content supplied explicitly by the scan owner; protected by existing scans RLS.';
+CREATE INDEX scans_user_type_created_idx ON public.scans (user_id,scan_type,created_at DESC);
