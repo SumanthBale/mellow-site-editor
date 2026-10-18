@@ -15,6 +15,8 @@ export const Route = createFileRoute("/project")({
         content:
           "Objectives, architecture, ML models and results of the phishing detection major project.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ProjectPage,
@@ -107,8 +109,9 @@ function ProjectPage() {
       </Section>
 
       <Section title="System architecture">
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">The working website covers URL, email and SMS detection. Email and SMS use transparent content/sender heuristics and embedded URL checks, with optional AI explanations. They do not currently run trained Random Forest, SVM or neural-network models, and no email/SMS accuracy has been measured. Pasted sender addresses are not authenticated; attachments and destinations are not opened.</p>
         <div className="rounded-xl border border-border bg-surface p-5">
-          <pre className="overflow-x-auto font-mono text-xs leading-6 text-muted-foreground">{`  URL input
+          <pre className="overflow-x-auto font-mono text-xs leading-6 text-muted-foreground">{`  URL / Email / SMS input
       |
       v
   [ Preprocessing ]  normalise, parse, tokenize
@@ -117,7 +120,7 @@ function ProjectPage() {
   [ Feature extraction ]  address-bar | domain | security | content
       |
       v
-  [ Classifier ]  Random Forest / SVM / Neural Network
+  [ Live scoring ]  weighted URL and message indicators
       |
       v
   [ Risk score + verdict ]  safe | suspicious | phishing

@@ -15,6 +15,8 @@ export const Route = createFileRoute("/team")({
         property: "og:description",
         content: "Students and guide behind the AI based phishing detection major project.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: TeamPage,

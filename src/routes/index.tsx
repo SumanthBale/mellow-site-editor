@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { UrlScanner } from "@/components/UrlScanner";
+import { DetectorNavigation } from "@/components/DetectorNavigation";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -27,8 +28,10 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Explainable phishing detection: 17 lexical URL features, risk scoring and AI-generated reasoning.",
+          "Explainable URL, email and SMS phishing detection with risk indicators and AI reasoning.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: HomePage,
@@ -88,6 +91,7 @@ function HomePage() {
           </div>
 
           <div className="mt-10">
+            <div className="mb-4 flex justify-center"><DetectorNavigation /></div>
             <UrlScanner />
           </div>
         </div>

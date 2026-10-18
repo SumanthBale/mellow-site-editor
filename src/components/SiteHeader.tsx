@@ -6,7 +6,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
 const NAV = [
-  { to: "/", label: "Detector" },
+  { to: "/", label: "URL" },
+  { to: "/email", label: "Email" },
+  { to: "/sms", label: "SMS" },
   { to: "/project", label: "Project" },
   { to: "/team", label: "Team" },
   { to: "/history", label: "History" },
