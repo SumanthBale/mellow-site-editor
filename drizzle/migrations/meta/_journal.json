@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792334070697,
+      "tag": "0000_add_email_sms_scan_history",
+      "breakpoints": true
+    }
+  ]
+}

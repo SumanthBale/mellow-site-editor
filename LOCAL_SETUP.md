@@ -33,6 +33,12 @@ The exact values are already in the `.env` file inside the Lovable project — c
 
 Without `LOVABLE_API_KEY` the URL feature extraction and risk score still work; only the AI written explanation is skipped.
 
+## Email and SMS modules
+- Open `/email` or `/sms` after starting the app. Both content detectors work without an AI key.
+- AI explanations are optional: select the AI checkbox before submitting. The server-only AI Gateway SDK reads `LOVABLE_API_KEY`; never use a `VITE_` prefix for it. Hosted secrets are not included in exported `.env` files.
+- History uses the same hosted backend, which already has the added scan columns. For a separate backend, apply the included `drizzle/migrations/0000_add_email_sms_scan_history.sql` after the original scans schema.
+- These modules implement heuristic content and URL analysis, not trained ML inference. Sender authentication, mailbox/mobile integrations, and attachment scanning are not implemented.
+
 ## 5. Run
 ```bash
 npm run dev
