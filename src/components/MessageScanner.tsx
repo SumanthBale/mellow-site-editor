@@ -51,4 +51,19 @@ export function MessageScanner({ type }: { type: "email" | "sms" }) {
   return <>
     <form className="mt-8 space-y-5" onSubmit={(e) => { e.preventDefault(); void submit(); }}>
       <div className={type === "email" ? "grid gap-4 sm:grid-cols-2" : "max-w-md"}>
-        <div className="space-y-2"><Label htmlFor={`${type}-sender`}>{type === "email" ? "Sender email (optional)" : "Sender number or ID (optional)"}</Label><Input id={`${type}-sender`} type={type === "email" ? "email" : "text"} value={sender} maxLength={320} disabled={busy} onChange={(e) => setSender(e.target.value)} placeholder={type === "email" ? "sender@example.com" : "+91… or sender ID
+        <div className="space-y-2"><Label htmlFor={`${type}-sender`}>{type === "email" ? "Sender email (optional)" : "Sender number or ID (optional)"}</Label><Input id={`${type}-sender`} type={type === "email" ? "email" : "text"} value={sender} maxLength={320} disabled={busy} onChange={(e) => setSender(e.target.value)} placeholder={type === "email" ? "sender@example.com" : "+91… or sender ID"} /></div>
+        {type === "email" ? <div className="space-y-2"><Label htmlFor="email-subject">Subject (optional)</Label><Input id="email-subject" value={subject} maxLength={300} disabled={busy} onChange={(e) => setSubject(e.target.value)} placeholder="Email subject" /></div> : null}
+      </div>
+      <div className="space-y-2"><Label htmlFor={`${type}-content`}>{type === "email" ? "Email body" : "SMS message"}</Label><Textarea id={`${type}-content`} value={content} maxLength={limit} disabled={busy} onChange={(e) => setContent(e.target.value)} placeholder={type === "email" ? "Paste the email body, including any links…" : "Paste the text message…"} className="min-h-48 bg-surface text-sm" /><p className="text-right font-mono text-xs text-muted-foreground">{content.length.toLocaleString()}/{limit.toLocaleString()}</p></div>
+      <div className="flex flex-wrap gap-3"><Button type="button" variant="secondary" size="sm" disabled={busy} onClick={() => { const s = SAMPLES[type]; setSender(s.sender); setSubject(s.subject); setContent(s.content); setResult(null); setError(""); }}>Suspicious example</Button><Button type="button" variant="secondary" size="sm" disabled={busy} onClick={() => { setSender(type === "email" ? "classmate@example.edu" : "Classmate"); setSubject(type === "email" ? "Project meeting" : ""); setContent("Our project meeting is at 10 tomorrow in room 204. Please bring your notes."); setResult(null); setError(""); }}>Routine example</Button><Button type="button" variant="ghost" size="icon" aria-label="Clear message" disabled={busy} onClick={() => { setContent(""); setSender(""); setSubject(""); setResult(null); setError(""); }}><RotateCcw className="h-4 w-4" /></Button></div>
+      <div className="space-y-3 border-t border-border pt-4">
+        <div className="flex items-start gap-2"><Checkbox id={`${type}-ai`} checked={useAi} disabled={busy} onCheckedChange={(v) => setUseAi(v === true)} /><Label htmlFor={`${type}-ai`} className="text-sm leading-5">Include AI explanation — sends message content to the AI service</Label></div>
+        {user ? <div className="flex items-start gap-2"><Checkbox id={`${type}-save`} checked={save} disabled={busy} onCheckedChange={(v) => setSave(v === true)} /><Label htmlFor={`${type}-save`} className="text-sm leading-5">Save message and results to my private history</Label></div> : <p className="text-xs text-muted-foreground"><Link to="/auth" className="text-primary">Sign in</Link> to save your results.</p>}
+        <p className="text-xs text-muted-foreground">Remove sensitive personal information before scanning. Links and attachments are not opened.</p>
+      </div>
+      {error ? <p role="alert" className="text-sm text-danger">{error}</p> : null}
+      <Button type="submit" size="lg" disabled={busy} className="gap-2">{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ScanLine className="h-4 w-4" />}{busy ? "Analysing…" : type === "email" ? "Analyse email" : "Analyse SMS"}</Button>
+    </form>
+    {result ? <MessageResult result={result} /> : null}
+  </>;
+}

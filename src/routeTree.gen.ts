@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EmailRouteImport } from './routes/email'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as ProjectRouteImport } from './routes/project'
+import { Route as SmsRouteImport } from './routes/sms'
 import { Route as TeamRouteImport } from './routes/team'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +27,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmailRoute = EmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
@@ -33,6 +40,11 @@ const HistoryRoute = HistoryRouteImport.update({
 const ProjectRoute = ProjectRouteImport.update({
   id: '/project',
   path: '/project',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmsRoute = SmsRouteImport.update({
+  id: '/sms',
+  path: '/sms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamRoute = TeamRouteImport.update({
@@ -44,38 +56,55 @@ const TeamRoute = TeamRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/project': typeof ProjectRoute
+  '/sms': typeof SmsRoute
   '/team': typeof TeamRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/project': typeof ProjectRoute
+  '/sms': typeof SmsRoute
   '/team': typeof TeamRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/project': typeof ProjectRoute
+  '/sms': typeof SmsRoute
   '/team': typeof TeamRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/history' | '/project' | '/team'
+  fullPaths:
+    '/' | '/auth' | '/email' | '/history' | '/project' | '/sms' | '/team'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/history' | '/project' | '/team'
-  id: '__root__' | '/' | '/auth' | '/history' | '/project' | '/team'
+  to: '/' | '/auth' | '/email' | '/history' | '/project' | '/sms' | '/team'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/email'
+    | '/history'
+    | '/project'
+    | '/sms'
+    | '/team'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  EmailRoute: typeof EmailRoute
   HistoryRoute: typeof HistoryRoute
   ProjectRoute: typeof ProjectRoute
+  SmsRoute: typeof SmsRoute
   TeamRoute: typeof TeamRoute
 }
 
@@ -95,6 +124,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/email': {
+      id: '/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/history': {
       id: '/history'
       path: '/history'
@@ -107,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/project'
       fullPath: '/project'
       preLoaderRoute: typeof ProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sms': {
+      id: '/sms'
+      path: '/sms'
+      fullPath: '/sms'
+      preLoaderRoute: typeof SmsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/team': {
@@ -122,8 +165,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  EmailRoute: EmailRoute,
   HistoryRoute: HistoryRoute,
   ProjectRoute: ProjectRoute,
+  SmsRoute: SmsRoute,
   TeamRoute: TeamRoute,
 }
 export const routeTree = rootRouteImport
