@@ -1,5 +1,5 @@
 # Remaining detection modules
-- [ ] Add tested email and SMS content analysis with embedded URL checks.
-- [ ] Add email and SMS pages, navigation, and AI explanations.
-- [ ] Extend owner-only scan history and local setup notes.
-- [ ] Verify both detectors and saved history; apply required package update.
+- [x] Add tested email and SMS content analysis with embedded URL checks.
+- [x] Add email and SMS pages, navigation, and AI explanations.
+- [x] Extend existing protected scan history and local setup notes.
+- [x] Verify both detectors, optional AI explanation, saved history and phone layout; apply required package update.
