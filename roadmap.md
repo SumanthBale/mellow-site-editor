@@ -5,6 +5,6 @@
 - [x] Verify both detectors, optional AI explanation, saved history and phone layout; apply required package update.
 
 # Account sign-in repair
-- [ ] Correct signup confirmation and existing-account feedback.
-- [ ] Add password recovery for accounts without a password.
-- [ ] Test signup states, recovery access, and signed-in history.
+- [x] Correct signup confirmation and existing-account feedback.
+- [x] Add password recovery for accounts without a password.
+- [x] Test signup states, recovery access, and signed-in history.
