@@ -8,6 +8,13 @@
       "when": 1792334070697,
       "tag": "0000_add_email_sms_scan_history",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792388845180,
+      "tag": "0001_restore_authenticated_role_check",
+      "breakpoints": true
     }
   ]
 }
