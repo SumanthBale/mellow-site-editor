@@ -3,3 +3,8 @@
 - [x] Add email and SMS pages, navigation, and AI explanations.
 - [x] Extend existing protected scan history and local setup notes.
 - [x] Verify both detectors, optional AI explanation, saved history and phone layout; apply required package update.
+
+# Account sign-in repair
+- [ ] Correct signup confirmation and existing-account feedback.
+- [ ] Add password recovery for accounts without a password.
+- [ ] Test signup states, recovery access, and signed-in history.
