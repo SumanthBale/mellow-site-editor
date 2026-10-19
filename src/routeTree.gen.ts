@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as ProjectRouteImport } from './routes/project'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SmsRouteImport } from './routes/sms'
 import { Route as TeamRouteImport } from './routes/team'
 
@@ -42,6 +43,11 @@ const ProjectRoute = ProjectRouteImport.update({
   path: '/project',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SmsRoute = SmsRouteImport.update({
   id: '/sms',
   path: '/sms',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/project': typeof ProjectRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sms': typeof SmsRoute
   '/team': typeof TeamRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/project': typeof ProjectRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sms': typeof SmsRoute
   '/team': typeof TeamRoute
 }
@@ -78,15 +86,31 @@ export interface FileRoutesById {
   '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/project': typeof ProjectRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sms': typeof SmsRoute
   '/team': typeof TeamRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/email' | '/history' | '/project' | '/sms' | '/team'
+    | '/'
+    | '/auth'
+    | '/email'
+    | '/history'
+    | '/project'
+    | '/reset-password'
+    | '/sms'
+    | '/team'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/email' | '/history' | '/project' | '/sms' | '/team'
+  to:
+    | '/'
+    | '/auth'
+    | '/email'
+    | '/history'
+    | '/project'
+    | '/reset-password'
+    | '/sms'
+    | '/team'
   id:
     | '__root__'
     | '/'
@@ -94,6 +118,7 @@ export interface FileRouteTypes {
     | '/email'
     | '/history'
     | '/project'
+    | '/reset-password'
     | '/sms'
     | '/team'
   fileRoutesById: FileRoutesById
@@ -104,6 +129,7 @@ export interface RootRouteChildren {
   EmailRoute: typeof EmailRoute
   HistoryRoute: typeof HistoryRoute
   ProjectRoute: typeof ProjectRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SmsRoute: typeof SmsRoute
   TeamRoute: typeof TeamRoute
 }
@@ -145,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sms': {
       id: '/sms'
       path: '/sms'
@@ -168,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailRoute: EmailRoute,
   HistoryRoute: HistoryRoute,
   ProjectRoute: ProjectRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SmsRoute: SmsRoute,
   TeamRoute: TeamRoute,
 }

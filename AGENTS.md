@@ -13,3 +13,4 @@
 - Use separate email and SMS content routes sharing the scanner and result views; this keeps navigation and module-specific inputs clear.
 - Use the AI Gateway SDK only inside server functions for new message explanations; this keeps secrets and message inference out of browser bundles.
 - Store all scan types in the existing owner-protected scans table with additive columns; this preserves URL history and existing access policies.
+- Treat signup as authenticated only when Auth returns a session, and keep password recovery on a public route; confirmation-required and existing social accounts must never receive a false signed-in success.
