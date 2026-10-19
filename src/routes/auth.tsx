@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
+import { signupOutcome } from "@/lib/auth-flow";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -34,11 +35,13 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState("");
+  const [formError, setFormError] = useState("");
 
   useEffect(() => {
     if (!loading && user) void navigate({ to: "/history" });
@@ -47,25 +50,45 @@ function AuthPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    setNotice("");
+    setFormError("");
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email,
+      const address = email.trim();
+      if (mode === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(address, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        setNotice("If an account exists for this email, a password reset link has been sent. Check your inbox and spam folder.");
+      } else if (mode === "signup") {
+        const { data, error } = await supabase.auth.signUp({
+          email: address,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/history`,
+            emailRedirectTo: window.location.origin,
             data: { full_name: fullName },
           },
         });
         if (error) throw error;
-        toast.success("Account created. You're signed in.");
+        const outcome = signupOutcome(data);
+        if (outcome === "signed-in") {
+          toast.success("Account created. You're signed in.");
+        } else {
+          setNotice(outcome === "existing-account"
+            ? "This email may already have an account. Sign in with Google if you registered with Google, or use Forgot password to set a password."
+            : "Check your email for a confirmation link before signing in. If you already registered with Google, continue with Google or use Forgot password to set a password.");
+          setPassword("");
+        }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email: address, password });
         if (error) throw error;
         toast.success("Welcome back.");
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Authentication failed.");
+      const authError = error as { code?: string; message?: string };
+      setFormError(authError.code === "invalid_credentials"
+        ? "Email or password is incorrect. If you created your account with Google, continue with Google or use Forgot password to set a password."
+        : authError.message || "Authentication failed. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -93,7 +116,7 @@ function AuthPage() {
           </span>
         </div>
         <h1 className="mt-3 text-2xl font-semibold">
-          {mode === "signin" ? "Sign in" : "Create an account"}
+          {mode === "signin" ? "Sign in" : mode === "forgot" ? "Reset your password" : "Create an account"}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Save every scan and review your phishing detection history.
@@ -124,7 +147,7 @@ function AuthPage() {
               className="bg-background"
             />
           </div>
-          <div className="space-y-1.5">
+          {mode !== "forgot" ? <div className="space-y-1.5">
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
@@ -135,12 +158,16 @@ function AuthPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               className="bg-background"
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
             />
-          </div>
+          </div> : null}
+          {notice ? <p role="status" className="text-sm text-foreground">{notice}</p> : null}
+          {formError ? <p role="alert" className="text-sm text-destructive">{formError}</p> : null}
           <Button type="submit" className="w-full" disabled={busy}>
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? "Sign in" : "Sign up"}
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? "Sign in" : mode === "forgot" ? "Send reset link" : "Sign up"}
           </Button>
         </form>
+        {mode === "signin" ? <Button variant="link" className="mt-2 px-0" disabled={busy} onClick={() => { setMode("forgot"); setNotice(""); setFormError(""); }}>Forgot password?</Button> : null}
 
         <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
           <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
@@ -152,13 +179,15 @@ function AuthPage() {
 
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {mode === "signin" ? "New here? " : "Already registered? "}
-          <button
+          <Button
+            variant="link"
             type="button"
-            className="text-primary underline-offset-4 hover:underline"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+            className="h-auto p-0"
+            disabled={busy}
+            onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setNotice(""); setFormError(""); setPassword(""); }}
           >
             {mode === "signin" ? "Create an account" : "Sign in"}
-          </button>
+          </Button>
         </p>
         <p className="mt-3 text-center text-xs text-muted-foreground">
           <Link to="/" className="hover:text-foreground">
